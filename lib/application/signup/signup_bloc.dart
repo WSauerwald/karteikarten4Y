@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:karteikarten/domain/failures/failure.dart';
-import 'package:karteikarten/domain/use_cases/login_usecase.dart';
-import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 part 'signup_event.dart';
@@ -11,11 +9,11 @@ class SignupBloc extends Bloc<SignupBlocEvent, SignupState> {
   SignupBloc() : super(SignupState(isSubmitting: false, showValidationMessage: false)) {
     
     on<RegisterWithEmailAndPasswordPressed>((event, emit){
-
+      emit(SignupState(isSubmitting: true, showValidationMessage: false));
     });
 
     on<LoginWithEmailAndPasswordPressed>((event, emit) {
-      
+      emit(SignupState(isSubmitting: true, showValidationMessage: false));
     });
   }
 }

@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/shared/constant.dart';
@@ -15,13 +14,13 @@ class UserInputContainer extends StatefulWidget {
 }
 
 class _UserInputContainerState extends State<UserInputContainer> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -51,20 +50,20 @@ class _UserInputContainerState extends State<UserInputContainer> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    return Column(
-      children: [
-        const AppHeadline(),
-        BlocConsumer<SignupBloc, SignupState>(
-          listener: (context, state) {
-            // TODO: navigate to a ather page
-          },
-          builder: (context, state) {
-            return Form(
+    return BlocConsumer<SignupBloc, SignupState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Column(
+          children: [
+            const AppHeadline(),
+            Form(
               key: formKey,
               child: Expanded(
                 flex: 7,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(padding_15),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(
                       sigmaY: 15,
@@ -77,7 +76,7 @@ class _UserInputContainerState extends State<UserInputContainer> {
                       padding: EdgeInsets.only(right: size.width / 30),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(.05),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(padding_15),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,14 +87,14 @@ class _UserInputContainerState extends State<UserInputContainer> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: validateEmail,
-                              controller: emailController,
+                              controller: _emailController,
                               maxLength: 24,
                               maxLines: 1,
                               textAlignVertical: TextAlignVertical.bottom,
                               onTapOutside: (event) =>
                                   FocusManager.instance.primaryFocus?.unfocus(),
-                              style:
-                                  TextStyle(color: Colors.white.withOpacity(.8)),
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(.8)),
                               cursorColor: Colors.white,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -112,15 +111,15 @@ class _UserInputContainerState extends State<UserInputContainer> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: validatePassword,
-                              controller: passwordController,
+                              controller: _passwordController,
                               maxLength: 24,
                               maxLines: 1,
                               obscureText: true,
                               textAlignVertical: TextAlignVertical.bottom,
                               onTapOutside: (event) =>
                                   FocusManager.instance.primaryFocus?.unfocus(),
-                              style:
-                                  TextStyle(color: Colors.white.withOpacity(.8)),
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(.8)),
                               cursorColor: Colors.white,
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -137,51 +136,71 @@ class _UserInputContainerState extends State<UserInputContainer> {
                   ),
                 ),
               ),
-            );
-          },
-        ),
-        const SizedBox(height: padding_20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BlurButton(
-              buttonText: loginText,
-              divisionFactor: 2.5,
-              function: () {
-                if (formKey.currentState!.validate()) {
-                  print("OK");
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content:
-                        Text("Invalid ''User name'' or ''password'' Inputs"),
-                    backgroundColor: Colors.red,
-                  ));
-                }
-              },
             ),
-            SizedBox(width: size.width / 20),
-            BlurButton(
-              buttonText: forgottenPwText,
-              divisionFactor: 2.5,
-              function: () {},
+            const SizedBox(height: padding_20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if(!state.isSubmitting)...[
+                  BlurButton(
+                    buttonText: loginText,
+                    divisionFactor: 2.5,
+                    function: () {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<SignupBloc>(context).add(LoginWithEmailAndPasswordPressed(email: _emailController.text, password: _passwordController.text));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content:
+                              Text("Invalid ''User name'' or ''password'' Input"),
+                          backgroundColor: Colors.red,
+                        ));
+                      }
+                    },
+                  ),
+                  SizedBox(width: size.width / 20),
+                  BlurButton(
+                    buttonText: forgottenPwText,
+                    divisionFactor: 2.5,
+                    function: () {},
+                  ),
+                ],                
+              ],
+            ),
+            if(state.isSubmitting)...[
+              const SizedBox(height: padding_50),
+              //TODO Progress gegen ein geiles Austauschen 
+              Expanded(
+              flex: 1,
+              child: CircularProgressIndicator(color: Colors.white.withOpacity(.7),)
+            )
+            ],            
+            Expanded(
+              flex: 6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BlurButton(
+                    buttonText: createNewAccountText,
+                    divisionFactor: 2,
+                    function: () {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<SignupBloc>(context).add(RegisterWithEmailAndPasswordPressed(email: _emailController.text, password: _passwordController.text));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content:
+                              Text("Invalid ''User name'' or ''password'' Input"),
+                          backgroundColor: Colors.red,
+                        ));
+                      }
+                    },
+                  ),
+                  SizedBox(height: size.height * .05),
+                ],
+              ),
             ),
           ],
-        ),
-        Expanded(
-          flex: 6,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              BlurButton(
-                buttonText: createNewAccountText,
-                divisionFactor: 2,
-                function: () {},
-              ),
-              SizedBox(height: size.height * .05),
-            ],
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
