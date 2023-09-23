@@ -16,4 +16,3 @@ class LoginWithEmailAndPasswordPressed extends SignupBlocEvent{
 }
 
 
-class LoginRequestedEvent extends SignupBlocEvent{}

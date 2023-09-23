@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/core/failures/auth_failures.dart';
+import 'package:karteikarten/presentation/login/widgets/dialog.dart';
+import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'app_headline.dart';
 import 'blur_button.dart';
@@ -15,6 +17,7 @@ class UserInputContainer extends StatefulWidget {
 }
 
 class _UserInputContainerState extends State<UserInputContainer> {
+  final TextEditingController _emailResetController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -23,28 +26,6 @@ class _UserInputContainerState extends State<UserInputContainer> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  String? validateEmail(String? input) {
-    const emailRegex =
-        r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
-    if (input == null || input.isEmpty) {
-      return "please enter email";
-    } else if (RegExp(emailRegex).hasMatch(input)) {
-      return null;
-    } else {
-      return "invalid email format";
-    }
-  }
-
-  String? validatePassword(String? input) {
-    if (input == null || input.isEmpty) {
-      return "please enter email";
-    } else if (input.length >= 6) {
-      return null;
-    } else {
-      return "short password";
-    }
   }
 
   String mapFailureMessage(AuthFailure failure) {
@@ -102,55 +83,8 @@ class _UserInputContainerState extends State<UserInputContainer> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: padding_10),
-                            child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: validateEmail,
-                              controller: _emailController,
-                              maxLength: 24,
-                              maxLines: 1,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(.8)),
-                              cursorColor: Colors.white,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.email_outlined,
-                                  color: Colors.white.withOpacity(.7),
-                                ),
-                                labelText: userEmailText,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: padding_10),
-                            child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: validatePassword,
-                              controller: _passwordController,
-                              maxLength: 24,
-                              maxLines: 1,
-                              obscureText: true,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(.8)),
-                              cursorColor: Colors.white,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.lock_outline,
-                                  color: Colors.white.withOpacity(.7),
-                                ),
-                                labelText: userPasswordText,
-                              ),
-                            ),
-                          ),
+                          EmailUserInput(controller: _emailController),
+                          PasswordUserInput(controller: _passwordController),
                         ],
                       ),
                     ),
@@ -160,7 +94,7 @@ class _UserInputContainerState extends State<UserInputContainer> {
             ),
             const SizedBox(height: padding_20),
             if (!state.isSubmitting) ...[
-              //TODO Progress Indicator Button
+              //TODO eventuelle umstellung auf Progress Button
               BlurButton(
                 buttonText: loginText,
                 divisionFactor: 1.5,
@@ -185,22 +119,12 @@ class _UserInputContainerState extends State<UserInputContainer> {
                 divisionFactor: 1.5,
                 function: () => showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Password reset pressed'),
-                    content: const Text('Forgotten password is at the moment not implemented'),
-                    actions: <Widget>[                      
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'OK'),
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  ),
+                  builder: (BuildContext context) => ResetPasswortDialog(controller: _emailResetController),
                 ),
               ),
             ],
             if (state.isSubmitting) ...[
               const SizedBox(height: padding_50),
-              //TODO Progress gegen ein geiles Austauschen
               Expanded(
                   flex: 1,
                   child: CircularProgressIndicator(
