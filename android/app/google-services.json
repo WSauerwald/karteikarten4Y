@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "380238333008",
+    "project_id": "karteikarten-bc2f0",
+    "storage_bucket": "karteikarten-bc2f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380238333008:android:26a68eb5278ad4c4697d55",
+        "android_client_info": {
+          "package_name": "com.example.karteikarten"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALTsWm-1MOqfh7TxAk6tIAuN01-DRLEmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

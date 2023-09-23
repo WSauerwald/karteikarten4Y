@@ -53,6 +53,7 @@ class AppTheme{
   //### dark ###
 
   static final InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
+          counterStyle: TextStyle(color: Colors.white.withOpacity(.8)),
           errorStyle: const TextStyle(color: Color.fromARGB(255, 252, 18, 1)),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),

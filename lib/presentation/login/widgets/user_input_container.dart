@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
+import 'package:karteikarten/core/failures/auth_failures.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'app_headline.dart';
 import 'blur_button.dart';
@@ -46,13 +47,33 @@ class _UserInputContainerState extends State<UserInputContainer> {
     }
   }
 
+  String mapFailureMessage(AuthFailure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return "Server failure. Please try agan!";
+      case EmailAlreadyInUseFailure:
+        return "Email already in use";
+      case InvalidEmailAndPasswordFailure:
+        return "Invalid email or password";
+      default:
+        return "Something went wrong";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocConsumer<SignupBloc, SignupState>(
       listener: (context, state) {
-        // TODO: implement listener
+        state.authFailuresOrSuccessOption.fold(
+            () => {},
+            (failOrSuccess) => failOrSuccess.fold((failure) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(mapFailureMessage(failure)),
+                    backgroundColor: Colors.red,
+                  ));
+                }, (success) => print("Login !!!!!!!!!!!!!!!!!!!!")));
       },
       builder: (context, state) {
         return Column(
@@ -138,42 +159,54 @@ class _UserInputContainerState extends State<UserInputContainer> {
               ),
             ),
             const SizedBox(height: padding_20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if(!state.isSubmitting)...[
-                  BlurButton(
-                    buttonText: loginText,
-                    divisionFactor: 2.5,
-                    function: () {
-                      if (formKey.currentState!.validate()) {
-                        BlocProvider.of<SignupBloc>(context).add(LoginWithEmailAndPasswordPressed(email: _emailController.text, password: _passwordController.text));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content:
-                              Text("Invalid ''User name'' or ''password'' Input"),
-                          backgroundColor: Colors.red,
-                        ));
-                      }
-                    },
+            if (!state.isSubmitting) ...[
+              //TODO Progress Indicator Button
+              BlurButton(
+                buttonText: loginText,
+                divisionFactor: 1.5,
+                function: () {
+                  if (formKey.currentState!.validate()) {
+                    BlocProvider.of<SignupBloc>(context).add(
+                        LoginWithEmailAndPasswordPressed(
+                            email: _emailController.text,
+                            password: _passwordController.text));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content:
+                          Text("Invalid ''User name'' or ''password'' Input"),
+                      backgroundColor: Colors.red,
+                    ));
+                  }
+                },
+              ),
+              SizedBox(height: size.width / 20),
+              BlurButton(
+                buttonText: forgottenPwText,
+                divisionFactor: 1.5,
+                function: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Password reset pressed'),
+                    content: const Text('Forgotten password is at the moment not implemented'),
+                    actions: <Widget>[                      
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: size.width / 20),
-                  BlurButton(
-                    buttonText: forgottenPwText,
-                    divisionFactor: 2.5,
-                    function: () {},
-                  ),
-                ],                
-              ],
-            ),
-            if(state.isSubmitting)...[
+                ),
+              ),
+            ],
+            if (state.isSubmitting) ...[
               const SizedBox(height: padding_50),
-              //TODO Progress gegen ein geiles Austauschen 
+              //TODO Progress gegen ein geiles Austauschen
               Expanded(
-              flex: 1,
-              child: CircularProgressIndicator(color: Colors.white.withOpacity(.7),)
-            )
-            ],            
+                  flex: 1,
+                  child: CircularProgressIndicator(
+                    color: Colors.white.withOpacity(.7),
+                  ))
+            ],
             Expanded(
               flex: 6,
               child: Column(
@@ -184,11 +217,15 @@ class _UserInputContainerState extends State<UserInputContainer> {
                     divisionFactor: 2,
                     function: () {
                       if (formKey.currentState!.validate()) {
-                        BlocProvider.of<SignupBloc>(context).add(RegisterWithEmailAndPasswordPressed(email: _emailController.text, password: _passwordController.text));
+                        BlocProvider.of<SignupBloc>(context).add(
+                            RegisterWithEmailAndPasswordPressed(
+                                email: _emailController.text,
+                                password: _passwordController.text));
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content:
-                              Text("Invalid ''User name'' or ''password'' Input"),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              "Invalid ''User name'' or ''password'' Input"),
                           backgroundColor: Colors.red,
                         ));
                       }

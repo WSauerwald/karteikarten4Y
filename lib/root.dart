@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:karteikarten/presentation/login/signup_page.dart';
 
 Map<String, WidgetBuilder> pageRoots(){
   return <String, WidgetBuilder>{
-    //"/screen1" :(context) => const Screen1(),
+    "/signupPage" :(context) => const SignupPage(),
     //"/screen2" :(context) => const Screen2(),
   };
 }
