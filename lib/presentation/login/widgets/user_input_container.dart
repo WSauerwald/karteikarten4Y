@@ -48,7 +48,7 @@ class _UserInputContainerState extends State<UserInputContainer> {
                     backgroundColor: Colors.green,
                   ));
                   await Future.delayed(const Duration(seconds: 2));
-                  //TODO navigation home Page
+                  Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
                 }));
       },
       builder: (context, state) {
@@ -89,7 +89,6 @@ class _UserInputContainerState extends State<UserInputContainer> {
             ),
             const SizedBox(height: padding_20),
             if (!state.isSubmitting) ...[
-              //TODO eventuelle umstellung auf Progress Button
               BlurButton(
                 buttonText: loginText,
                 divisionFactor: 1.5,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/service/injection.dart';
-import '../../shared/animated_background.dart';
+import '../../shared/animated_signup_background.dart';
 import 'widgets/user_input_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
