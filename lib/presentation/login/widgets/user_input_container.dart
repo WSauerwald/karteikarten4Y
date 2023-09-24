@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
-import 'package:karteikarten/core/failures/auth_failures.dart';
+import 'package:karteikarten/core/failures/map/map_failures.dart';
 import 'package:karteikarten/presentation/login/widgets/dialog.dart';
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/shared/constant.dart';
@@ -23,22 +23,10 @@ class _UserInputContainerState extends State<UserInputContainer> {
 
   @override
   void dispose() {
+    _emailResetController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  String mapFailureMessage(AuthFailure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return "Server failure. Please try agan!";
-      case EmailAlreadyInUseFailure:
-        return "Email already in use";
-      case InvalidEmailAndPasswordFailure:
-        return "Invalid email or password";
-      default:
-        return "Something went wrong";
-    }
   }
 
   @override
@@ -54,7 +42,14 @@ class _UserInputContainerState extends State<UserInputContainer> {
                     content: Text(mapFailureMessage(failure)),
                     backgroundColor: Colors.red,
                   ));
-                }, (success) => print("Login !!!!!!!!!!!!!!!!!!!!")));
+                }, (success) async {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Account has been created"),
+                    backgroundColor: Colors.green,
+                  ));
+                  await Future.delayed(const Duration(seconds: 2));
+                  //TODO navigation home Page
+                }));
       },
       builder: (context, state) {
         return Column(

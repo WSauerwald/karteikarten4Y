@@ -41,5 +41,20 @@ class AuthRepositoryImpl implements AuthRepository{
       }
     }
   }
+  
+  @override
+  Future<Either<AuthFailure, Unit>> resetPasswort({required String email}) async {
+    try{
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return right(unit);
+    }on FirebaseAuthException catch(e){
+      if(e.code == "auth/user-not-found"){
+        return left(NoCorrespondingEmailFailure());
+      }
+      else{
+        return left(ServerFailure());
+      }
+    }
+  }
 
 }

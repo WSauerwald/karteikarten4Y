@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:karteikarten/core/failures/map/map_failures.dart';
 import 'package:karteikarten/domain/reposetories/auth_repository.dart';
 // ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
@@ -13,11 +14,12 @@ class ResetPasswortBloc extends Bloc<ResetPasswortEvent, ResetPasswortState> {
     on<ForgottenPasswordPressed>((event, emit) async {
       emit(ResetPasswortStateLoading());
 
-      //final failureOrSuccess = await authRepository.;
-      await Future.delayed(const Duration(seconds: 2));
+      final failureOrSuccess = await authRepository.resetPasswort(email: event.email);
 
-      emit(ResetPasswortStateLoaded(message: "Email send"));
-
+      failureOrSuccess.fold(
+        (failuer) => emit(ResetPasswortStateError(message: mapFailureMessage(failuer))),
+        (success) => emit(ResetPasswortStateLoaded(message: "Email send")),
+      );
     });
   }
 }

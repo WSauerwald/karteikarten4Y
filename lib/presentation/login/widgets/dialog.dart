@@ -4,7 +4,6 @@ import 'package:karteikarten/application/resetPasswort/reset_passwort_bloc.dart'
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/service/injection.dart';
 import 'package:karteikarten/shared/constant.dart';
-
 import 'blur_button.dart';
 
 class ResetPasswortDialog extends StatelessWidget {
@@ -63,10 +62,11 @@ class ResetPasswortDialog extends StatelessWidget {
                       backgroundColor: Colors.green,
                     ));});
                   } else if (state is ResetPasswortStateError) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Something wents wrong"),
-                      backgroundColor: Colors.red,
-                    ));
+                    Navigator.pop(context);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green,
+                    ));});
                   }
                   return Container();
                 }),
@@ -76,7 +76,7 @@ class ResetPasswortDialog extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Back'),
+              child: const Text('Cancel'),
             ),
           ],
         ),

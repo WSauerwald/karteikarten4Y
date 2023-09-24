@@ -16,7 +16,7 @@ class SignupBloc extends Bloc<SignupBlocEvent, SignupState> {
       emit(state.copyWith(isSubmitting: true, showValidationMessage: false));
 
       final failureOrSuccess = await authRepository.registerWithEmailAndPassword(email: event.email, password: event.password);
-
+      
       emit(SignupState(isSubmitting: false, showValidationMessage: false, authFailuresOrSuccessOption: optionOf(failureOrSuccess)));
     });
 
