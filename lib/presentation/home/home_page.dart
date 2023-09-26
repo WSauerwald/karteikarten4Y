@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karteikarten/presentation/home/widgets/body.dart';
+import 'package:karteikarten/presentation/home/widgets/card_deck.dart';
 
 import 'widgets/app_bar.dart';
 
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: HomeAppBar(controller: _searchController, isSearching: _searchBoolean)),
-      body: !_searchBoolean ? const IndexCardOverview() : _searchListView(),
+      body: !_searchBoolean ? const CardDeck() : _searchListView(),
     );
   }
 }
