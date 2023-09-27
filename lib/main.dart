@@ -10,19 +10,18 @@ import 'package:karteikarten/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyALTsWm-1MOqfh7TxAk6tIAuN01-DRLEmM", 
-      appId: "1:380238333008:android:26a68eb5278ad4c4697d55", 
-      messagingSenderId: "380238333008", 
-      projectId: "karteikarten-bc2f0")
-  );
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyALTsWm-1MOqfh7TxAk6tIAuN01-DRLEmM",
+          appId: "1:380238333008:android:26a68eb5278ad4c4697d55",
+          messagingSenderId: "380238333008",
+          projectId: "karteikarten-bc2f0"));
   await di.init();
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: pageRoots(),
       theme: AppTheme.darkTheme,
-      home: HomePage(),//const SignupPage(),
+      home: const SignupPage(),
       title: "Karteikarten",
     ),
   );

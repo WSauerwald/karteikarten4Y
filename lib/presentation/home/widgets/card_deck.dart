@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karteikarten/presentation/home/widgets/add_deck.dart';
-import 'package:karteikarten/shared/animated_home_background.dart';
+import 'package:karteikarten/shared/animated_signup_background.dart';
 
 class CardDeck extends StatefulWidget {
   const CardDeck({super.key});
@@ -12,13 +12,11 @@ class CardDeck extends StatefulWidget {
 class _CardDeckState extends State<CardDeck> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return const Stack(
       children: [
-        AnimatedHomeBackground(),
+        AnimatedBackground(),
         Column(
-          children: [
-            AddDeck()
-          ],
+          children: [AddDeck()],
         )
       ],
     );

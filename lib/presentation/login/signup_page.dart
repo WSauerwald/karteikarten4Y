@@ -12,17 +12,13 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xff192028),
       body: BlocProvider(
         create: (context) => serviceLocator<SignupBloc>(),
         child: SingleChildScrollView(
           child: SizedBox(
             height: size.height,
             child: const Stack(
-              children: [
-                AnimatedBackground(),
-                UserInputContainer()
-              ],
+              children: [AnimatedBackground(), UserInputContainer()],
             ),
           ),
         ),
