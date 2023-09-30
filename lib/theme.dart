@@ -74,10 +74,26 @@ class AppTheme {
     ),
     labelStyle: TextStyle(fontSize: 14, color: Colors.white.withOpacity(.5)),
   );
+
+  // static const ColorScheme _colorScheme = ColorScheme(
+  //   brightness: brightness,
+  //   primary: primary,
+  //   onPrimary: onPrimary,
+  //   secondary: secondary,
+  //   onSecondary: onSecondary,
+  //   error: error,
+  //   onError: onError,
+  //   background: background,
+  //   onBackground: onBackground,
+  //   surface: surface,
+  //   onSurface: onSurface
+  // );
+
   //### ###
 
   //Dark Mode
   static ThemeData darkTheme = ThemeData(
+    //colorScheme: ,
     appBarTheme: _appBarTheme,
     scaffoldBackgroundColor: const Color(0xff192028),
     inputDecorationTheme: _inputDecorationTheme,

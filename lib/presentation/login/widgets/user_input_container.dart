@@ -44,11 +44,12 @@ class _UserInputContainerState extends State<UserInputContainer> {
                   ));
                 }, (success) async {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Account has been created"),
+                    content: Text("Success"),
                     backgroundColor: Colors.green,
                   ));
                   await Future.delayed(const Duration(seconds: 2));
-                  Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil("/home", (route) => false);
                 }));
       },
       builder: (context, state) {
@@ -113,7 +114,8 @@ class _UserInputContainerState extends State<UserInputContainer> {
                 divisionFactor: 1.5,
                 function: () => showDialog<String>(
                   context: context,
-                  builder: (BuildContext context) => ResetPasswortDialog(controller: _emailResetController),
+                  builder: (BuildContext context) =>
+                      ResetPasswortDialog(controller: _emailResetController),
                 ),
               ),
             ],

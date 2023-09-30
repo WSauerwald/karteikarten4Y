@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:karteikarten/presentation/home/home_page.dart';
-import 'package:karteikarten/presentation/login/signup_page.dart';
 import 'package:karteikarten/root.dart';
 import 'package:karteikarten/service/injection.dart' as di;
 import 'package:karteikarten/theme.dart';
@@ -21,8 +20,8 @@ void main() async {
       debugShowCheckedModeBanner: false,
       routes: pageRoots(),
       theme: AppTheme.darkTheme,
-      home: const SignupPage(),
-      title: "Karteikarten",
+      home: HomePage(), // const SignupPage(),
+      title: "Index Card",
     ),
   );
   SystemChrome.setSystemUIOverlayStyle(
