@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:karteikarten/application/auth/auth_bloc.dart';
 
 class HomeAppBar extends StatefulWidget {
   final TextEditingController controller;
@@ -49,13 +51,13 @@ class _HomeAppBarState extends State<HomeAppBar> {
       centerTitle: true,
       leading: IconButton(
           onPressed: () {
-            //TODO Logout
+            BlocProvider.of<AuthBloc>(context).add(SignOutPressedEvent());
           },
           icon: const Icon(Icons.logout)),
       actions: !widget.isSearching
           ? [
               IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onPressed: () {
                     setState(() {
                       widget.isSearching = true;
@@ -64,7 +66,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
             ]
           : [
               IconButton(
-                  icon: Icon(Icons.clear),
+                  icon: const Icon(Icons.clear),
                   onPressed: () {
                     setState(() {
                       widget.isSearching = false;

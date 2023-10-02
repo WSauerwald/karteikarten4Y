@@ -1,10 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/presentation/home/home_page.dart';
+import 'package:karteikarten/presentation/login/signup_page.dart';
 import 'package:karteikarten/root.dart';
 import 'package:karteikarten/service/injection.dart' as di;
+import 'package:karteikarten/service/injection.dart';
 import 'package:karteikarten/theme.dart';
+import 'application/auth/auth_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,13 +20,7 @@ void main() async {
           projectId: "karteikarten-bc2f0"));
   await di.init();
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: pageRoots(),
-      theme: AppTheme.darkTheme,
-      home: HomePage(), // const SignupPage(),
-      title: "Index Card",
-    ),
+    const MyApp(),
   );
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -30,4 +28,27 @@ void main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => serviceLocator<AuthBloc>(),
+        )
+      ],
+      child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: pageRoots(),
+      theme: AppTheme.darkTheme,
+      home: const SignupPage(),
+      title: "Index Card",
+    ),
+    );
+  }
 }

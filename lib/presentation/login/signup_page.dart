@@ -18,7 +18,10 @@ class SignupPage extends StatelessWidget {
           child: SizedBox(
             height: size.height,
             child: const Stack(
-              children: [AnimatedBackground(), UserInputContainer()],
+              children: [
+                //TODO 
+                //AnimatedBackground(), 
+                UserInputContainer()],
             ),
           ),
         ),

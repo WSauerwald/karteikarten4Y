@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:karteikarten/application/resetPasswort/reset_passwort_bloc.dart';
+import 'package:karteikarten/application/reset_passwort/reset_passwort_bloc.dart';
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/service/injection.dart';
 import 'package:karteikarten/shared/constant.dart';
@@ -65,7 +65,7 @@ class ResetPasswortDialog extends StatelessWidget {
                     Navigator.pop(context);
                     WidgetsBinding.instance.addPostFrameCallback((_) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(state.message),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.red,
                     ));});
                   }
                   return Container();

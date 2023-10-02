@@ -1,10 +1,10 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/core/failures/map/map_failures.dart';
 import 'package:karteikarten/presentation/login/widgets/dialog.dart';
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
+import 'package:karteikarten/shared/blur_effect.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'app_headline.dart';
 import 'blur_button.dart';
@@ -60,29 +60,22 @@ class _UserInputContainerState extends State<UserInputContainer> {
               key: formKey,
               child: Expanded(
                 flex: 7,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(padding_15),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaY: 15,
-                      sigmaX: 15,
+                child: BlurEffect(
+                  child: Container(
+                    height: size.width,
+                    width: size.width * .95,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(right: size.width / 30),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(.05),
+                      borderRadius: BorderRadius.circular(padding_15),
                     ),
-                    child: Container(
-                      height: size.width,
-                      width: size.width * .95,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(right: size.width / 30),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.05),
-                        borderRadius: BorderRadius.circular(padding_15),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          EmailUserInput(controller: _emailController),
-                          PasswordUserInput(controller: _passwordController),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        EmailUserInput(controller: _emailController),
+                        PasswordUserInput(controller: _passwordController),
+                      ],
                     ),
                   ),
                 ),
