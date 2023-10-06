@@ -19,12 +19,11 @@ class DeckRepositoryImpl implements DeckRepository {
       await userDoc.deckCollection.doc(deckmodel.id).set(deckmodel.toMap());
 
       return right(unit);
-    } on FirebaseException catch (e) {
-      if (e.code.contains('PERMISSION_DENIED')) {
-        return left(InsufficientPermisssons());
-      } else {
-        return left(UnexpectedFailure());
-      }
+    } catch (e) {
+      print("******************************************************");
+      print(e);
+      print("******************************************************");
+      return left(UnexpectedFailure());
     }
   }
 

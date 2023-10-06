@@ -7,6 +7,5 @@ Map<String, WidgetBuilder> pageRoots() {
   return <String, WidgetBuilder>{
     "/signupPage": (context) => const SignupPage(),
     "/home": (context) => HomePage(),
-    "/ConfigIndexcard": (context) => ConfigIndexcard(),
   };
 }

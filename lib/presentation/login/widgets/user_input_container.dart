@@ -63,14 +63,14 @@ class _UserInputContainerState extends State<UserInputContainer> {
                 }));
       },
       builder: (context, state) {
-        return Column(
-          children: [
-            const AppHeadline(),
-            Center(
-              child: Form(
+        return Center(
+          child: Column(
+            children: [
+              const AppHeadline(),
+              Form(
                 key: formKey,
                 child: Expanded(
-                  flex: 7,
+                  flex: 1,
                   child: BlurEffect(
                     child: Container(
                       height: size.width,
@@ -92,75 +92,73 @@ class _UserInputContainerState extends State<UserInputContainer> {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: padding_20),
-            if (!state.isSubmitting) ...[
-              BlurButton(
-                buttonText: loginText,
-                divisionFactor: 1.5,
-                function: () {
-                  if (formKey.currentState!.validate()) {
-                    BlocProvider.of<SignupBloc>(context).add(
-                        LoginWithEmailAndPasswordPressed(
-                            email: _emailController.text,
-                            password: _passwordController.text));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content:
-                          Text("Invalid ''User name'' or ''password'' Input"),
-                      backgroundColor: Colors.red,
-                    ));
-                  }
-                },
-              ),
-              SizedBox(height: size.width / 20),
-              BlurButton(
-                buttonText: forgottenPwText,
-                divisionFactor: 1.5,
-                function: () => showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      ResetPasswortDialog(controller: _emailResetController),
+              const SizedBox(height: padding_20),
+              if (!state.isSubmitting) ...[
+                BlurButton(
+                  buttonText: loginText,
+                  divisionFactor: 1.5,
+                  function: () {
+                    if (formKey.currentState!.validate()) {
+                      BlocProvider.of<SignupBloc>(context).add(
+                          LoginWithEmailAndPasswordPressed(
+                              email: _emailController.text,
+                              password: _passwordController.text));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content:
+                            Text("Invalid ''User name'' or ''password'' Input"),
+                        backgroundColor: Colors.red,
+                      ));
+                    }
+                  },
+                ),
+                SizedBox(height: size.width / 20),
+                BlurButton(
+                  buttonText: forgottenPwText,
+                  divisionFactor: 1.5,
+                  function: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        ResetPasswortDialog(controller: _emailResetController),
+                  ),
+                ),
+              ],
+              if (state.isSubmitting) ...[
+                const SizedBox(height: padding_50),
+                CircularProgressIndicator(
+                  color: Colors.white.withOpacity(.7),
+                )
+              ],
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BlurButton(
+                      buttonText: createNewAccountText,
+                      divisionFactor: 2,
+                      function: () {
+                        if (formKey.currentState!.validate()) {
+                          BlocProvider.of<SignupBloc>(context).add(
+                              RegisterWithEmailAndPasswordPressed(
+                                  email: _emailController.text,
+                                  password: _passwordController.text));
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text(
+                                "Invalid ''User name'' or ''password'' Input"),
+                            backgroundColor: Colors.red,
+                          ));
+                        }
+                      },
+                    ),
+                    SizedBox(height: size.height * .05),
+                  ],
                 ),
               ),
             ],
-            if (state.isSubmitting) ...[
-              const SizedBox(height: padding_50),
-              Expanded(
-                  flex: 1,
-                  child: CircularProgressIndicator(
-                    color: Colors.white.withOpacity(.7),
-                  ))
-            ],
-            Expanded(
-              flex: 6,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  BlurButton(
-                    buttonText: createNewAccountText,
-                    divisionFactor: 2,
-                    function: () {
-                      if (formKey.currentState!.validate()) {
-                        BlocProvider.of<SignupBloc>(context).add(
-                            RegisterWithEmailAndPasswordPressed(
-                                email: _emailController.text,
-                                password: _passwordController.text));
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text(
-                              "Invalid ''User name'' or ''password'' Input"),
-                          backgroundColor: Colors.red,
-                        ));
-                      }
-                    },
-                  ),
-                  SizedBox(height: size.height * .05),
-                ],
-              ),
-            ),
-          ],
+          ),
         );
       },
     );

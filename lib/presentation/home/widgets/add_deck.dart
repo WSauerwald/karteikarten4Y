@@ -16,7 +16,7 @@ class AddDeck extends StatelessWidget {
       padding: const EdgeInsets.all(padding_15),
       child: BlurEffect(
         child: Container(
-            height: size.height / 8,
+            height: size.height * .12,
             width: size.width,
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(.5),

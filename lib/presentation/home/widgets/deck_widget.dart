@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/controller/controller_bloc.dart';
 import 'package:karteikarten/application/observer/observer_bloc.dart';
+import 'package:karteikarten/presentation/config_indexcard/config_indexcard.dart';
 import 'package:karteikarten/presentation/home/widgets/delet_dialog.dart';
 import 'package:karteikarten/shared/constant.dart';
 
@@ -20,6 +21,7 @@ class _DeckWidgetState extends State<DeckWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocBuilder<ObserverBloc, ObserverState>(
       builder: (context, state) {
         if (state is ObserverInitial) {
@@ -39,55 +41,62 @@ class _DeckWidgetState extends State<DeckWidget> {
             backgroundColor: Colors.red,
           ));
         } else if (state is ObserverSuccess) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: state.deckEntity.length,
-            itemBuilder: (BuildContext context, int index) {
-              final deck = state.deckEntity[index];
-              return InkWell(
-                onDoubleTap: () {
-                  print("drücken auf Karteikarten Lernen");
-                },
-                child: Card(
-                  elevation: 16,
-                  child: ListTile(
-                      title: Text(deck.title),
-                      subtitle: Text("Indexcards: ${deck.indexcards.length}"),
-                      trailing: PopupMenuButton(
-                          itemBuilder: (BuildContext context) =>
-                              <PopupMenuEntry<SampleItem>>[
-                                PopupMenuItem<SampleItem>(
-                                  value: SampleItem.itemOne,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed("/ConfigIndexcard");
-                                    },
-                                    child: const Text('Create new indexcard'),
+          return SizedBox(
+            height: size.height * .698,
+            width: size.width - padding_30,
+            child: ListView.builder(          
+              shrinkWrap: true,
+              itemCount: state.deckEntity.length,
+              itemBuilder: (BuildContext context, int index) {
+                final deck = state.deckEntity[index];
+                return InkWell(
+                  onDoubleTap: () {
+                    print("drücken auf Karteikarten Lernen");
+                  },
+                  child: Card(
+                    //elevation: 1,
+                    child: ListTile(
+                        title: Text(deck.title),
+                        subtitle: Text("Indexcards: ${deck.indexcards.length}"),
+                        trailing: PopupMenuButton(
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<SampleItem>>[
+                                  PopupMenuItem<SampleItem>(
+                                    value: SampleItem.itemOne,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ConfigIndexcard(deckEntity: deck)));
+                                      },
+                                      child: const Text('Create new indexcard'),
+                                    ),
                                   ),
-                                ),
-                                PopupMenuItem<SampleItem>(
-                                  value: SampleItem.itemTwo,
-                                  child: InkWell(
-                                    onTap: () {
-                                      final controllerBloc =
-                                          context.read<ControllerBloc>();
-                                      showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            DeleteDialog(
-                                                deckEntity:
-                                                    state.deckEntity[index],
-                                                bloc: controllerBloc),
-                                      );
-                                    },
-                                    child: const Text('Delete'),
+                                  PopupMenuItem<SampleItem>(
+                                    value: SampleItem.itemTwo,
+                                    child: InkWell(
+                                      onTap: () {
+                                        final controllerBloc =
+                                            context.read<ControllerBloc>();
+                                        showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              DeleteDialog(
+                                                  deckEntity:
+                                                      state.deckEntity[index],
+                                                  bloc: controllerBloc),
+                                        );
+                                      },
+                                      child: const Text('Delete'),
+                                    ),
                                   ),
-                                ),
-                              ])),
-                ),
-              );
-            },
+                                ])),
+                  ),
+                );
+              },
+            ),
           );
         }
         return Container();

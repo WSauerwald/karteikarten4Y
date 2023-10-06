@@ -8,7 +8,7 @@ class AppHeadline extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Expanded(
-      flex: 5,
+      flex: 1,
       child: Padding(
         padding: EdgeInsets.only(top: size.height * .1),
         child: Text(

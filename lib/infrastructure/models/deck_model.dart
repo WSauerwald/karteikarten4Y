@@ -11,7 +11,7 @@ class DeckModel {
   DeckModel({required this.id, required this.title, required this.indexcards});
 
   Map<String, dynamic> toMap() {
-    return {"id": id, "title": title, "indexcards": indexcards};
+    return {"id": id, "title": title, "indexcards": indexcards.map((card) => card.toMap()).toList()};
   }
 
   factory DeckModel.fromMap(Map<String, dynamic> map) {
