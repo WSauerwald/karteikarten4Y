@@ -5,7 +5,7 @@ import 'package:karteikarten/application/observer/observer_bloc.dart';
 import 'package:karteikarten/presentation/home/widgets/delet_dialog.dart';
 import 'package:karteikarten/shared/constant.dart';
 
-enum SampleItem { itemOne, itemTwo}
+enum SampleItem { itemOne, itemTwo }
 
 class DeckWidget extends StatefulWidget {
   const DeckWidget({super.key});
@@ -20,8 +20,6 @@ class _DeckWidgetState extends State<DeckWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return BlocBuilder<ObserverBloc, ObserverState>(
       builder: (context, state) {
         if (state is ObserverInitial) {
@@ -54,6 +52,7 @@ class _DeckWidgetState extends State<DeckWidget> {
                   elevation: 16,
                   child: ListTile(
                       title: Text(deck.title),
+                      subtitle: Text("Indexcards: ${deck.indexcards.length}"),
                       trailing: PopupMenuButton(
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry<SampleItem>>[
@@ -61,7 +60,8 @@ class _DeckWidgetState extends State<DeckWidget> {
                                   value: SampleItem.itemOne,
                                   child: InkWell(
                                     onTap: () {
-                                      print('Create new indexcard');
+                                      Navigator.of(context)
+                                          .pushNamed("/ConfigIndexcard");
                                     },
                                     child: const Text('Create new indexcard'),
                                   ),
@@ -80,7 +80,6 @@ class _DeckWidgetState extends State<DeckWidget> {
                                                     state.deckEntity[index],
                                                 bloc: controllerBloc),
                                       );
-                                      print('Delete');
                                     },
                                     child: const Text('Delete'),
                                   ),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/core/failures/map/map_failures.dart';
+import 'package:karteikarten/shared/blur_button.dart';
 import 'package:karteikarten/presentation/login/widgets/dialog.dart';
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/shared/blur_effect.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'app_headline.dart';
-import 'blur_button.dart';
 
 class UserInputContainer extends StatefulWidget {
   const UserInputContainer({super.key});
@@ -20,6 +20,16 @@ class _UserInputContainerState extends State<UserInputContainer> {
   final TextEditingController _emailResetController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  //**********************************
+  //Zum Löschen
+  @override
+  void initState() {
+    _emailController.text = "t@f.de";
+    _passwordController.text = "123456";
+    super.initState();
+  }
+  //**********************************
 
   @override
   void dispose() {
@@ -39,7 +49,7 @@ class _UserInputContainerState extends State<UserInputContainer> {
             () => {},
             (failOrSuccess) => failOrSuccess.fold((failure) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(mapFailureMessage(failure)),
+                    content: Text(mapAuthFailureMessage(failure)),
                     backgroundColor: Colors.red,
                   ));
                 }, (success) async {
@@ -56,26 +66,28 @@ class _UserInputContainerState extends State<UserInputContainer> {
         return Column(
           children: [
             const AppHeadline(),
-            Form(
-              key: formKey,
-              child: Expanded(
-                flex: 7,
-                child: BlurEffect(
-                  child: Container(
-                    height: size.width,
-                    width: size.width * .95,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(right: size.width / 30),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(.05),
-                      borderRadius: BorderRadius.circular(padding_15),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        EmailUserInput(controller: _emailController),
-                        PasswordUserInput(controller: _passwordController),
-                      ],
+            Center(
+              child: Form(
+                key: formKey,
+                child: Expanded(
+                  flex: 7,
+                  child: BlurEffect(
+                    child: Container(
+                      height: size.width,
+                      width: size.width * .95,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(right: size.width / 30),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(.05),
+                        borderRadius: BorderRadius.circular(padding_15),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          EmailUserInput(controller: _emailController),
+                          PasswordUserInput(controller: _passwordController),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/reset_passwort/reset_passwort_bloc.dart';
+import 'package:karteikarten/shared/blur_button.dart';
 import 'package:karteikarten/presentation/login/widgets/text_form_field.dart';
 import 'package:karteikarten/service/injection.dart';
 import 'package:karteikarten/shared/constant.dart';
-import 'blur_button.dart';
 
 class ResetPasswortDialog extends StatelessWidget {
   final TextEditingController controller;
@@ -50,23 +50,29 @@ class ResetPasswortDialog extends StatelessWidget {
                   } else if (state is ResetPasswortStateLoading) {
                     return Column(
                       children: [
-                        const SizedBox(height: padding_50,),
+                        const SizedBox(
+                          height: padding_50,
+                        ),
                         CircularProgressIndicator(
                             color: Colors.white.withOpacity(.7)),
                       ],
                     );
                   } else if (state is ResetPasswortStateLoaded) {
                     Navigator.pop(context);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(state.message),
-                      backgroundColor: Colors.green,
-                    ));});
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.green,
+                      ));
+                    });
                   } else if (state is ResetPasswortStateError) {
                     Navigator.pop(context);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(state.message),
-                      backgroundColor: Colors.red,
-                    ));});
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.red,
+                      ));
+                    });
                   }
                   return Container();
                 }),

@@ -1,7 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/service/injection.dart';
-import '../../shared/animated_signup_background.dart';
+import 'package:karteikarten/shared/animated_signup_background.dart';
 import 'widgets/user_input_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,9 +20,10 @@ class SignupPage extends StatelessWidget {
             height: size.height,
             child: const Stack(
               children: [
-                //TODO 
-                //AnimatedBackground(), 
-                UserInputContainer()],
+                //TODO
+                //AnimatedBackground(),
+                UserInputContainer()
+              ],
             ),
           ),
         ),

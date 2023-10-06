@@ -41,7 +41,6 @@ class DeckRepositoryImpl implements DeckRepository {
       if (e.code.contains('PERMISSION_DENIED')) {
         return left(InsufficientPermisssons());
       } else if (e.code.contains('CONTAINS_NOT_FOUND')) {
-        //TODO
         return left(ContainsNotFoundFailure());
       } else {
         return left(UnexpectedFailure());
@@ -62,7 +61,6 @@ class DeckRepositoryImpl implements DeckRepository {
       if (e.code.contains('PERMISSION_DENIED')) {
         return left(InsufficientPermisssons());
       } else if (e.code.contains('CONTAINS_NOT_FOUND')) {
-        //TODO
         return left(ContainsNotFoundFailure());
       } else {
         return left(UnexpectedFailure());

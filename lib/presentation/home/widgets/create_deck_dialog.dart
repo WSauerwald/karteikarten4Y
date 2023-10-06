@@ -25,37 +25,46 @@ class _CreateDialogState extends State<CreateDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocProvider(
       create: (context) => serviceLocator<ControllerBloc>(),
       child: BlocBuilder<ControllerBloc, ControllerState>(
         builder: (context, state) {
-          return AlertDialog(
-            titleTextStyle:
-              const TextStyle(color: Colors.white, fontSize: padding_20),
-          contentTextStyle: const TextStyle(color: Colors.white),
-          backgroundColor: const Color.fromARGB(255, 33, 33, 33),
-            title: const Text("Enter a name:"),
-            content: InputTextFormField(
-              controller: _controller,
-              icons: null,
-              labelText: 'Deck name',
-              showIcon: false,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Back")),
-              TextButton(
-                  onPressed: () {
-                    DeckEntity deckEntity =
-                        DeckEntity(id: UniqueID(), title: _controller.text);
+          return Form(
+            key: formKey,
+            child: AlertDialog(
+              titleTextStyle:
+                  const TextStyle(color: Colors.white, fontSize: padding_20),
+              contentTextStyle: const TextStyle(color: Colors.white),
+              backgroundColor: const Color.fromARGB(255, 33, 33, 33),
+              title: const Text("Enter a name:"),
+              content: InputTextFormField(
+                controller: _controller,
+                icons: Icons.article,
+                labelText: 'Deck name',
+                showIcon: true,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Back")),
+                TextButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        DeckEntity deckEntity = DeckEntity(
+                            id: UniqueID(),
+                            title: _controller.text,
+                            indexcards: []);
 
-                    BlocProvider.of<ControllerBloc>(context)
-                        .add(CreateDeckEvent(deckEntity: deckEntity));
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Create")),
-            ],
+                        BlocProvider.of<ControllerBloc>(context)
+                            .add(CreateDeckEvent(deckEntity: deckEntity));
+                        Navigator.pop(context);
+                      }
+                      ;
+                    },
+                    child: const Text("Create")),
+              ],
+            ),
           );
         },
       ),

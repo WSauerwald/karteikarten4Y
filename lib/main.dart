@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:karteikarten/presentation/home/home_page.dart';
 import 'package:karteikarten/presentation/login/signup_page.dart';
 import 'package:karteikarten/root.dart';
 import 'package:karteikarten/service/injection.dart' as di;
@@ -30,7 +29,6 @@ void main() async {
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -43,12 +41,12 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: pageRoots(),
-      theme: AppTheme.darkTheme,
-      home: const SignupPage(),
-      title: "Index Card",
-    ),
+        debugShowCheckedModeBanner: false,
+        routes: pageRoots(),
+        theme: AppTheme.darkTheme,
+        home: const SignupPage(),
+        title: "Index Card",
+      ),
     );
   }
 }

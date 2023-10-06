@@ -14,27 +14,24 @@ class ObserverBloc extends Bloc<ObserverEvent, ObserverState> {
 
   StreamSubscription<Either<DeckFailure, List<DeckEntity>>>? _deckStreamSub;
   ObserverBloc({required this.deckRepository}) : super(ObserverInitial()) {
-
-
     on<ObserverAllEvent>((event, emit) async {
-
       emit(ObserverLoading());
 
       await _deckStreamSub?.cancel();
-      _deckStreamSub = deckRepository.watchAll().listen((failureOrDecks) => add(DeckUpdatedEvent(failureOrDecks: failureOrDecks)));
+      _deckStreamSub = deckRepository.watchAll().listen((failureOrDecks) =>
+          add(DeckUpdatedEvent(failureOrDecks: failureOrDecks)));
     });
 
     on<DeckUpdatedEvent>((event, emit) {
       event.failureOrDecks.fold(
-        (failure) => emit(ObserverFailure(deckFailure: failure)), 
-        (decks) => emit(ObserverSuccess(deckEntity: decks)));
+          (failure) => emit(ObserverFailure(deckFailure: failure)),
+          (decks) => emit(ObserverSuccess(deckEntity: decks)));
     });
 
     @override
     Future<void> close() async {
-    await _deckStreamSub?.cancel();
-    return super.close();
-  }
-
+      await _deckStreamSub?.cancel();
+      return super.close();
+    }
   }
 }

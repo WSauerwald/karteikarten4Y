@@ -17,25 +17,20 @@ class _HomeAppBarState extends State<HomeAppBar> {
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       keyboardAppearance: Brightness.dark,
       controller: widget.controller,
-      autofocus: true, //Display the keyboard when TextField is displayed
+      autofocus: true,
       cursorColor: Colors.white,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 20,
       ),
-      textInputAction:
-          TextInputAction.search, //Specify the action button on the keyboard
+      textInputAction: TextInputAction.search,
       decoration: const InputDecoration(
-        //Style of TextField
-        enabledBorder: UnderlineInputBorder(
-            //Default TextField border
-            borderSide: BorderSide(color: Colors.white)),
-        focusedBorder: UnderlineInputBorder(
-            //Borders when a TextField is in focus
-            borderSide: BorderSide(color: Colors.white)),
-        hintText: 'Search', //Text that is displayed when nothing is entered.
+        enabledBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        focusedBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        hintText: 'Search',
         hintStyle: TextStyle(
-          //Style of hintText
           color: Colors.white60,
           fontSize: 20,
         ),

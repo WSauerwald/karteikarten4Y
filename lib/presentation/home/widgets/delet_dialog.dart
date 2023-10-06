@@ -15,20 +15,24 @@ class DeleteDialog extends StatelessWidget {
       create: (context) => serviceLocator<ControllerBloc>(),
       child: AlertDialog(
         title: const Text("Selected Deck to delete:"),
-        content: Text(deckEntity.title, maxLines: 3, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 25),),
+        content: Text(
+          deckEntity.title,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 25),
+        ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context), 
-            child: const Text("CANCEL")),
+              onPressed: () => Navigator.pop(context),
+              child: const Text("CANCEL")),
           TextButton(
-            onPressed: () {
-              bloc.add(DeleteDeckEvent(deckEntity: deckEntity));
-              Navigator.pop(context);
-            }, 
-            child: const Text("DELETE")),
+              onPressed: () {
+                bloc.add(DeleteDeckEvent(deckEntity: deckEntity));
+                Navigator.pop(context);
+              },
+              child: const Text("DELETE")),
         ],
-      ),  
+      ),
     );
-      
   }
 }
