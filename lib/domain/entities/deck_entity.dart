@@ -1,6 +1,3 @@
-import 'package:karteikarten/domain/entities/index_card_entity.dart';
-import 'package:flutter/material.dart';
-
 import 'id.dart';
 
 class DeckEntity {
@@ -15,7 +12,6 @@ class DeckEntity {
   DeckEntity copyWith({
     UniqueID? id,
     String? title,
-    List<IndexCardEntity>? indexCardEntity,
   }) {
     return DeckEntity(
         id: id ?? this.id,

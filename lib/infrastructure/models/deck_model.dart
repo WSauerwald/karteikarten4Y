@@ -26,7 +26,6 @@ class DeckModel{
   DeckModel copyWith({
     String? id,
     String? title,
-    List<IndexCardModel>? indexCardModel,
   }) {
     return DeckModel(
         id: id ?? this.id,

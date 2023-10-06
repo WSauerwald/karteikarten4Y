@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:karteikarten/application/auth/auth_bloc.dart';
-import 'package:karteikarten/application/create_new_deck/create_new_deck_bloc.dart';
+import 'package:karteikarten/application/controller/controller_bloc.dart';
 import 'package:karteikarten/application/observer/observer_bloc.dart';
 import 'package:karteikarten/application/reset_passwort/reset_passwort_bloc.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
@@ -18,9 +18,9 @@ Future<void> init() async{
   //! state management
   serviceLocator.registerFactory(() => ResetPasswortBloc(authRepository: serviceLocator()));
   serviceLocator.registerFactory(() => SignupBloc(authRepository: serviceLocator()));
-  serviceLocator.registerFactory(() => CreateNewDeckBloc(deckRepository: serviceLocator()));
   serviceLocator.registerFactory(() => AuthBloc(authRepository: serviceLocator()));
   serviceLocator.registerFactory(() => ObserverBloc(deckRepository: serviceLocator()));
+  serviceLocator.registerFactory(() => ControllerBloc(deckRepository: serviceLocator()));
 
   //! repos
   serviceLocator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(firebaseAuth: serviceLocator()));

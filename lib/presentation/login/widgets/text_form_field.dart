@@ -76,7 +76,7 @@ class EmailResetInput extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: validateEmail,
         controller: controller,
-        maxLength: 24,
+        maxLength: 40,
         maxLines: 1,
         textAlignVertical: TextAlignVertical.bottom,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
