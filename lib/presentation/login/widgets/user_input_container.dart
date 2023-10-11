@@ -57,7 +57,7 @@ class _UserInputContainerState extends State<UserInputContainer> {
                     content: Text("Success"),
                     backgroundColor: Colors.green,
                   ));
-                  await Future.delayed(const Duration(seconds: 2));
+                  await Future.delayed(const Duration(seconds: 1));
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil("/home", (route) => false);
                 }));

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karteikarten/presentation/config_indexcard/config_indexcard.dart';
+import 'package:karteikarten/presentation/config_indexcard/config_indexcard_page.dart';
 import 'package:karteikarten/presentation/home/home_page.dart';
 import 'package:karteikarten/presentation/login/signup_page.dart';
 

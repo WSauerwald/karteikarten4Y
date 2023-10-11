@@ -10,15 +10,15 @@ import 'package:karteikarten/shared/blur_effect.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'package:karteikarten/shared/input_text_form_field.dart';
 
-class ConfigIndexcard extends StatefulWidget {
+class ConfigIndexcardPage extends StatefulWidget {
   final DeckEntity deckEntity;
-  const ConfigIndexcard({super.key, required this.deckEntity});
+  const ConfigIndexcardPage({super.key, required this.deckEntity});
 
   @override
-  State<ConfigIndexcard> createState() => _ConfigIndexcardState();
+  State<ConfigIndexcardPage> createState() => _ConfigIndexcardPageState();
 }
 
-class _ConfigIndexcardState extends State<ConfigIndexcard> {
+class _ConfigIndexcardPageState extends State<ConfigIndexcardPage> {
   final TextEditingController _fondside = TextEditingController();
   final TextEditingController _backside = TextEditingController();
   final TextEditingController _tag = TextEditingController();

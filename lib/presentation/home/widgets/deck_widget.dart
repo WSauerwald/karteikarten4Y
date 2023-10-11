@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/controller/controller_bloc.dart';
 import 'package:karteikarten/application/observer/observer_bloc.dart';
-import 'package:karteikarten/presentation/config_indexcard/config_indexcard.dart';
+import 'package:karteikarten/presentation/config_indexcard/config_indexcard_page.dart';
 import 'package:karteikarten/presentation/home/widgets/delet_dialog.dart';
+import 'package:karteikarten/presentation/indexcard/indexcard_page.dart';
 import 'package:karteikarten/shared/constant.dart';
 
 enum SampleItem { itemOne, itemTwo }
@@ -44,14 +45,17 @@ class _DeckWidgetState extends State<DeckWidget> {
           return SizedBox(
             height: size.height * .698,
             width: size.width - padding_30,
-            child: ListView.builder(          
+            child: ListView.builder(
               shrinkWrap: true,
               itemCount: state.deckEntity.length,
               itemBuilder: (BuildContext context, int index) {
                 final deck = state.deckEntity[index];
                 return InkWell(
                   onDoubleTap: () {
-                    print("drücken auf Karteikarten Lernen");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => IndexcardPage(deck: deck)));
                   },
                   child: Card(
                     //elevation: 1,
@@ -69,7 +73,8 @@ class _DeckWidgetState extends State<DeckWidget> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ConfigIndexcard(deckEntity: deck)));
+                                                    ConfigIndexcardPage(
+                                                        deckEntity: deck)));
                                       },
                                       child: const Text('Create new indexcard'),
                                     ),
