@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karteikarten/application/controller/controller_bloc.dart';
 import 'package:karteikarten/domain/entities/deck_entity.dart';
 import 'package:karteikarten/domain/entities/id.dart';
-import 'package:karteikarten/domain/entities/index_card_entity.dart';
 import 'package:karteikarten/service/injection.dart';
 import 'package:karteikarten/shared/constant.dart';
 import 'package:karteikarten/shared/input_text_form_field.dart';
@@ -60,7 +59,6 @@ class _CreateDialogState extends State<CreateDialog> {
                             .add(CreateDeckEvent(deckEntity: deckEntity));
                         Navigator.pop(context);
                       }
-                      ;
                     },
                     child: const Text("Create")),
               ],

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:karteikarten/core/failures/map/map_failures.dart';
 import 'package:karteikarten/domain/reposetories/auth_repository.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'reset_passwort_event.dart';

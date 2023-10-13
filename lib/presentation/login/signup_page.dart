@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:karteikarten/application/signup/signup_bloc.dart';
 import 'package:karteikarten/service/injection.dart';
@@ -19,11 +18,7 @@ class SignupPage extends StatelessWidget {
           child: SizedBox(
             height: size.height,
             child: const Stack(
-              children: [
-                //TODO
-                //AnimatedBackground(),
-                UserInputContainer()
-              ],
+              children: [AnimatedBackground(), UserInputContainer()],
             ),
           ),
         ),

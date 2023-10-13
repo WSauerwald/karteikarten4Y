@@ -1,7 +1,6 @@
 import 'package:karteikarten/domain/entities/deck_entity.dart';
 import 'package:karteikarten/domain/entities/id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:karteikarten/domain/entities/index_card_entity.dart';
 import 'package:karteikarten/infrastructure/models/index_card_model.dart';
 
 class DeckModel {
@@ -11,7 +10,11 @@ class DeckModel {
   DeckModel({required this.id, required this.title, required this.indexcards});
 
   Map<String, dynamic> toMap() {
-    return {"id": id, "title": title, "indexcards": indexcards.map((card) => card.toMap()).toList()};
+    return {
+      "id": id,
+      "title": title,
+      "indexcards": indexcards.map((card) => card.toMap()).toList()
+    };
   }
 
   factory DeckModel.fromMap(Map<String, dynamic> map) {

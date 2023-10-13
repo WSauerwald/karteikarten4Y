@@ -20,9 +20,6 @@ class DeckRepositoryImpl implements DeckRepository {
 
       return right(unit);
     } catch (e) {
-      print("******************************************************");
-      print(e);
-      print("******************************************************");
       return left(UnexpectedFailure());
     }
   }

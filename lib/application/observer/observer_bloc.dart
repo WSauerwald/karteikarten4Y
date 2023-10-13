@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:karteikarten/core/failures/deck_failures.dart';
 import 'package:karteikarten/domain/entities/deck_entity.dart';
 import 'package:karteikarten/domain/reposetories/deck_repository.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'observer_event.dart';

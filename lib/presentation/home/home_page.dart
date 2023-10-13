@@ -12,13 +12,19 @@ import 'package:karteikarten/shared/constant.dart';
 
 import 'widgets/app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
-  final bool _searchBoolean = false;
-  //TODO Liste füllen mit den such tags
-  final List<String> _searchlist = ["E"];
+
+  bool _searchBoolean = true;
+
+  final List<String> _searchlist = [];
 
   Widget _searchListView() {
     //add
@@ -34,53 +40,76 @@ class HomePage extends StatelessWidget {
     final observerBloc = serviceLocator<ObserverBloc>()
       ..add(ObserverAllEvent());
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<ObserverBloc>(create: (context) => observerBloc),
-        BlocProvider<ControllerBloc>(
-            create: (context) => serviceLocator<ControllerBloc>())
-      ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<AuthBloc, AuthState>(listener: (context, state) {
-            if (state is AuthStateUnauthenticated) {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("/signupPage", (route) => false);
-            }
-          }),
-          BlocListener<ControllerBloc, ControllerState>(
-              listener: (context, state) {
-            if (state is ControllerFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(mapDeckFailureToMessage(state.deckFailure)),
-                backgroundColor: Colors.red,
-              ));
-            }
-          }),
+        providers: [
+          BlocProvider<ObserverBloc>(create: (context) => observerBloc),
+          BlocProvider<ControllerBloc>(
+              create: (context) => serviceLocator<ControllerBloc>())
         ],
-        child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: HomeAppBar(
-                  controller: _searchController, isSearching: _searchBoolean)),
-          body: !_searchBoolean
-              ? const Stack(
-                  children: [
-                    //TODO
-                    //AnimatedBackground(),
-                    Column(
-                      children: [
-                        AddDeck(),
-                        SizedBox(
-                          height: padding_20,
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<AuthBloc, AuthState>(listener: (context, state) {
+              if (state is AuthStateUnauthenticated) {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("/signupPage", (route) => false);
+              }
+            }),
+            BlocListener<ControllerBloc, ControllerState>(
+                listener: (context, state) {
+              if (state is ControllerFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(mapDeckFailureToMessage(state.deckFailure)),
+                  backgroundColor: Colors.red,
+                ));
+              }
+            }),
+          ],
+          child: Scaffold(
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(kToolbarHeight),
+                child: HomeAppBar(
+                    onSearchTextChanged: (text) {
+                      setState(() {
+                        _searchlist
+                            .clear(); // Die Liste löschen, um die Ergebnisse neu zu erstellen
+                        _searchBoolean =
+                            text.isNotEmpty; // Suchstatus aktualisieren
+                      });
+                    },
+                    controller: _searchController,
+                    isSearching: _searchBoolean)),
+            body: !_searchBoolean
+                ? const Stack(
+                    children: [
+                      AnimatedBackground(),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            AddDeck(),
+                            SizedBox(
+                              height: padding_20,
+                            ),
+                            DeckWidget(),
+                          ],
                         ),
-                        DeckWidget(),
-                      ],
-                    ),
-                  ],
-                )
-              : _searchListView(),
-        ),
-      ),
-    );
+                      ),
+                    ],
+                  )
+                : BlocBuilder<ObserverBloc, ObserverState>(
+                    builder: (context, state) {
+                    if (state is ObserverSuccess) {
+                      for (var deck in state.deckEntity) {
+                        for (var card in deck.indexcards) {
+                          if (_searchController.text == card.tag) {
+                            _searchlist.add(card.tag);
+                          }
+                        }
+                      }
+                      return _searchListView();
+                    } else {
+                      return Container();
+                    }
+                  }),
+          ),
+        ));
   }
 }

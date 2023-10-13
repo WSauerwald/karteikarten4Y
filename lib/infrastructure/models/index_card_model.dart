@@ -1,4 +1,3 @@
-import 'package:karteikarten/domain/entities/id.dart';
 import 'package:karteikarten/domain/entities/index_card_entity.dart';
 
 class IndexCardModel {
