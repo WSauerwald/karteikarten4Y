@@ -59,6 +59,7 @@ class _IndexcardPageState extends State<IndexcardPage>
                           child: FlipCard(
                             front: topWidget(widget.deck.indexcards[index]),
                             back: bottomWidget(widget.deck.indexcards[index]),
+                            side: CardSide.FRONT,
                           ));
                     },
                     cardController: controller,

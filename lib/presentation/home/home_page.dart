@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
 
-  bool _searchBoolean = true;
+  bool _searchBoolean = false;
 
   final List<String> _searchlist = [];
 
