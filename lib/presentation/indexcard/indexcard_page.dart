@@ -17,8 +17,8 @@ class IndexcardPage extends StatefulWidget {
 class _IndexcardPageState extends State<IndexcardPage>
     with TickerProviderStateMixin {
   CardController controller = CardController();
-  Color frondsideColor = Colors.yellowAccent;
-  Color backsideColor = Colors.indigoAccent;
+  Color frondsideColor = const Color.fromARGB(255, 0, 0, 0);
+  Color backsideColor = const Color.fromARGB(255, 3, 3, 3);
   int currentIndex = 0;
   int progressColorIndex = 0;
 
@@ -87,7 +87,7 @@ class _IndexcardPageState extends State<IndexcardPage>
                       if (orientation.name == "RIGHT") {
                         setState(() {
                           frondsideColor = Colors.black;
-                          if (currentIndex < stepColors.length) {
+                          if (currentIndex <= widget.deck.indexcards.length) {
                             currentIndex++;
                             colorIndex.add(1);
                           }
@@ -95,7 +95,7 @@ class _IndexcardPageState extends State<IndexcardPage>
                       } else if (orientation.name == "LEFT") {
                         setState(() {
                           frondsideColor = Colors.black;
-                          if (currentIndex < stepColors.length) {
+                          if (currentIndex <= widget.deck.indexcards.length) {
                             currentIndex++;
                             colorIndex.add(0);
                           }

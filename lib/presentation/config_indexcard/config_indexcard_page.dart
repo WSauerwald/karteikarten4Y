@@ -103,15 +103,19 @@ class _ConfigIndexcardPageState extends State<ConfigIndexcardPage> {
                                 divisionFactor: 2,
                                 function: () {
                                   if (formKey.currentState!.validate()) {
+                                    widget.deckEntity.indexcards.add(IndexCardEntity(
+                                          fondside: _fondside.text,
+                                          backside: _backside.text,
+                                          tag: _tag.text));
                                     BlocProvider.of<ControllerBloc>(context)
                                         .add(UpdateDeckEvent(
                                             deckEntity: widget.deckEntity
-                                                .copyWith(indexcards: [
-                                      IndexCardEntity(
-                                          fondside: _fondside.text,
-                                          backside: _backside.text,
-                                          tag: _tag.text)
-                                    ])));
+                                      //           .copyWith(indexcards: [
+                                      // IndexCardEntity(
+                                      //     fondside: _fondside.text,
+                                      //     backside: _backside.text,
+                                      //     tag: _tag.text)])
+                                    ));
                                   }
                                 });
                           } else if (state is ControllerInProgress) {
