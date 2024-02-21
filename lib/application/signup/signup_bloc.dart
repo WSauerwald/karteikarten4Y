@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:karteikarten/core/failures/auth_failures.dart';
 import 'package:karteikarten/domain/reposetories/auth_repository.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'signup_event.dart';
@@ -15,7 +16,7 @@ class SignupBloc extends Bloc<SignupBlocEvent, SignupState> {
       emit(state.copyWith(isSubmitting: true, showValidationMessage: false));
 
       final failureOrSuccess = await authRepository.registerWithEmailAndPassword(email: event.email, password: event.password);
-
+      
       emit(SignupState(isSubmitting: false, showValidationMessage: false, authFailuresOrSuccessOption: optionOf(failureOrSuccess)));
     });
 
@@ -28,4 +29,3 @@ class SignupBloc extends Bloc<SignupBlocEvent, SignupState> {
     });
   }
 }
-

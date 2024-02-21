@@ -7,3 +7,5 @@ class ServerFailure extends AuthFailure{}
 class EmailAlreadyInUseFailure extends AuthFailure{}
 
 class InvalidEmailAndPasswordFailure extends AuthFailure{}
+
+class NoCorrespondingEmailFailure extends AuthFailure{}
